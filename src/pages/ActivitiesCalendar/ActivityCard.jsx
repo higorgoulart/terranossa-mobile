@@ -12,17 +12,15 @@ export default function ActivityCard({ activity }) {
   const editable = activity.editable || true;
 
   const handleNameChange = (value) => {
-    ActivityService.updateActivity({ ...activity, name: value });
-    updateDayActivities();
+    ActivityService.updateActivity({ ...activity, name: value }).then(_ => updateDayActivities());
   };
 
   const deleteActivity = () => {
-    ActivityService.deleteActivity(activity);
-    updateDayActivities();
+    ActivityService.deleteActivity(activity).then(_ => updateDayActivities());
   };
 
   const updateDayActivities = () => {
-    setDayActivities(ActivityService.getByDate(currentDay));
+    ActivityService.getByDate(currentDay).then(activities => setDayActivities(activities));
   };
 
   return (

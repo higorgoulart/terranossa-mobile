@@ -1,10 +1,12 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Day from './Day';
 import ActivityService from '../../services/ActivityService';
 import { Button, Text, View } from 'react-native';
+import Utils from '@/utils/Utils';
 
 export default function Calendar() {
   const [currentDate, setCurrentDate] = useState(new Date());
+  const [weeks, setWeeks] = useState([]);
 
   const handlePrevMonth = () => {
     setCurrentDate(
@@ -18,27 +20,49 @@ export default function Calendar() {
     );
   }
 
-  const renderCalendarDays = () => {
+  useEffect(() => {
+    const fetchCalendarDays = async () => {
+      const generatedWeeks = await renderCalendarDays();
+      setWeeks(generatedWeeks);
+    };
+
+    fetchCalendarDays();
+  }, [currentDate]);
+
+  const renderCalendarDays = async () => {
+    let finished = false;
     const weeks = [];
     let weekDays = [];
     const days = [];
     const year = currentDate.getFullYear();
     const month = currentDate.getMonth();
-    const firstDay = new Date(year, month, 1).getDay();
-    const lastDay = new Date(year, month + 1, 0).getDate();
+    const firstDate = new Date(year, month, 1);
+    const firstDay = firstDate.getDay();
+    const lastDate = new Date(year, month + 1, 0);
+    const lastDay = lastDate.getDate();
 
     for (let i = 0; i < firstDay; i++) {
       days.push(<Day key={`first-empty-${i}`} isHeader={false} />);
     }
 
+    const activities = await ActivityService.getByDates(firstDate, lastDate);
+
     for (let i = 1; i <= lastDay; i++) {
       const date = new Date(year, month, i);
+      const dateTime = date.getTime();
+      
+      const hasActivity = activities.some(activity => {
+        const startDate = Utils.removeTime(activity.startDate).getTime();
+        const endDate = Utils.removeTime(activity.endDate).getTime();
+
+        return (startDate === dateTime || endDate === dateTime || (startDate < dateTime && endDate > dateTime))
+      });
 
       days.push(
         <Day 
-          key={date.getTime()} 
+          key={dateTime} 
           date={date}
-          hasActivity={ActivityService.hasInDate(date)} 
+          hasActivity={hasActivity} 
           isHeader={false}
         >
           {i}
@@ -94,7 +118,7 @@ export default function Calendar() {
           <Day>Sáb</Day>
         </View>
         <View className="flex flex-col">
-          {renderCalendarDays().map((week, index) => (
+          {weeks.map((week, index) => (
             <View key={index} className="flex flex-row">
               {week.map(day => day)}
             </View>
