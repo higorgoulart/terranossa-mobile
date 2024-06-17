@@ -12,7 +12,7 @@ export function ActivitiesCalendar() {
   const [dayActivities, setDayActivities] = useState(useContext(DayActivityContext).dayActivities);
 
   useEffect(() => {
-    setDayActivities(ActivityService.getByDate(currentDay));
+    ActivityService.getByDate(currentDay).then(activities => setDayActivities(activities));
   }, [currentDay]);
   
   return (
