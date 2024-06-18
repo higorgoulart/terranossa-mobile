@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { ScrollView, View, TextInput, Button, Alert } from 'react-native';
 import PageTitle from '../../../components/PageTitle';
 import PlantingInfoService from '../../../services/PlantingInfoService';
+import { useRouter } from 'expo-router'
 
 export function PlantingInfoRegister() {
     const [name, setName] = useState('');
@@ -9,16 +10,13 @@ export function PlantingInfoRegister() {
     const [cicle, setCicle] = useState('');
     const [plantingSeason, setPlantingSeason] = useState('');
     const [characteristics, setCharacteristics] = useState('');
-
+    const router = useRouter();
+    
     const handleSubmit = async () => {
         try {
-            await PlantingInfoService.addPlantingInfo(name, picture, cicle, plantingSeason, characteristics);
-            Alert.alert("Sucesso", "Informações de cultivo cadastradas com sucesso!");
-            setName('');
-            setPicture('');
-            setCicle('');
-            setPlantingSeason('');
-            setCharacteristics('');
+            const response = await PlantingInfoService.addPlantingInfo(name, picture, cicle, plantingSeason, characteristics);
+            Alert.alert("Sucesso", "Informações de cultivo cadastradas com sucesso.");
+            router.push('/planting-info');
         } catch (error) {
             Alert.alert("Erro", "Houve um erro ao cadastrar as informações de cultivo.");
         }
@@ -31,38 +29,42 @@ export function PlantingInfoRegister() {
                 desc="Cadastre novas informações de cultivo de plantas!"
                 img={require("src/assets/img/gardening-tools.png")}
             />
-            <View style={{ padding: 20 }}>
+            <View className="p-20">
                 <TextInput
                     placeholder="Nome"
                     value={name}
                     onChangeText={setName}
-                    style={{ marginBottom: 10, borderWidth: 1, padding: 10, borderRadius: 5 }}
+                    className="mb-10 border-2 p-2 rounded"
                 />
                 <TextInput
                     placeholder="Imagem (URL)"
                     value={picture}
                     onChangeText={setPicture}
-                    style={{ marginBottom: 10, borderWidth: 1, padding: 10, borderRadius: 5 }}
+                    className="mb-10 border-2 p-2 rounded"
                 />
                 <TextInput
                     placeholder="Ciclo"
                     value={cicle}
                     onChangeText={setCicle}
-                    style={{ marginBottom: 10, borderWidth: 1, padding: 10, borderRadius: 5 }}
+                    className="mb-10 border-2 p-2 rounded"
                 />
                 <TextInput
                     placeholder="Época de Plantio"
                     value={plantingSeason}
                     onChangeText={setPlantingSeason}
-                    style={{ marginBottom: 10, borderWidth: 1, padding: 10, borderRadius: 5 }}
+                    className="mb-10 border-2 p-2 rounded"
                 />
                 <TextInput
                     placeholder="Características"
                     value={characteristics}
                     onChangeText={setCharacteristics}
-                    style={{ marginBottom: 10, borderWidth: 1, padding: 10, borderRadius: 5 }}
+                    className="mb-10 border-2 p-2 rounded"
                 />
-                <Button title="Cadastrar" onPress={handleSubmit} />
+                <Button
+                    title="Cadastrar"
+                    onPress={handleSubmit}
+                    className="btn btn-primary absolute right-3 bottom-3"
+                />
             </View>
         </ScrollView>
     );

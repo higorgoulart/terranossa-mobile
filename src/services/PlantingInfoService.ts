@@ -17,8 +17,8 @@ export default class PlantingInfoService {
         });
     }
 
-    static async getPlantingInfo(name: string): Promise<any[]> {
-        return (await fetch("https://postgrest-qxy1.onrender.com/planting_info")).json().then(plantingInfos => PlantingInfoService.mapToPlantingInfo(plantingInfos));
+    static async getPlantingInfoByName(name: string): Promise<any[]> {
+        return (await fetch(`https://postgrest-qxy1.onrender.com/planting_info?name=ilike.*${name}*`)).json().then(plantingInfos => PlantingInfoService.mapToPlantingInfo(plantingInfos));
     }
 
     static mapToPlantingInfo(data: any[]): any[] {
