@@ -2,7 +2,7 @@ import { Image, Text, View } from "react-native";
 
 export default function PageTitle({ title, desc, img, color = 'white' }) {
   return (
-    <View className="flex flex-row bg-primary pt-4 pb-4">
+    <View className="flex flex-row bg-primary pt-10 pb-2">
       <View className="w-[120px]">
         <Image source={img} />
       </View>

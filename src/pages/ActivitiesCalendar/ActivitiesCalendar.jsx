@@ -18,7 +18,7 @@ export function ActivitiesCalendar() {
   return (
     <CurrentDayContext.Provider value={{currentDay, setCurrentDay}}>
       <DayActivityContext.Provider value={{dayActivities, setDayActivities}}>
-        <PageTitle 
+        <PageTitle
           title="Calendário"
           desc="Fique atualizado com as atividades e descubra o que está agendado para os próximos dias."
           img={require("src/assets/img/agenda.png")} />
