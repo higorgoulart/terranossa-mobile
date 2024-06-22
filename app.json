@@ -16,6 +16,7 @@
       ]
     ],
     "name": "terranossa-mobile",
-    "slug": "terranossa-mobile"
+    "slug": "terranossa-mobile",
+    "icon": "./src/assets/img/icon.png"
   }
 }
