@@ -4,12 +4,13 @@ import DayActivityContext from './contexts/DayActivityContext';
 import ActivityService from '../../services/ActivityService';
 import CurrentDayContext from './contexts/CurrentDayContext';
 import { Image, TextInput, TouchableOpacity, View } from 'react-native';
+import UserService from "@/services/UserService";
 
 export default function ActivityCard({ activity }) {
   const { currentDay } = useContext(CurrentDayContext);
   const { dayActivities, setDayActivities } = useContext(DayActivityContext);
 
-  const editable = activity.editable || true;
+  const editable = UserService.getLoggedUser() != null;
 
   const handleNameChange = (value) => {
     ActivityService.updateActivity({ ...activity, name: value }).then(_ => updateDayActivities());

@@ -22,8 +22,6 @@ export default class UserService {
     }
 
     static mapToUser(obj: any): any {
-
-        console.log(obj)
         return obj != null ? {
                 "email": obj.email,
                 "username": obj.username,
@@ -36,7 +34,7 @@ export default class UserService {
     }
 
     static async getLoggedUser(): Promise<any> {
-        return this.mapToUser(await AsyncStorage.getItem('loggedUser'));
+        return JSON.parse(await AsyncStorage.getItem('loggedUser'));
     }
 
     static async removeLoggedUser() {
