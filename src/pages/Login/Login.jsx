@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert } from 'react-native';
 import UserService from "@/services/UserService";
 
@@ -20,13 +20,14 @@ const LoginScreen = () => {
         }
     };
 
-    useEffect( () => {
+    useEffect(() => {
         checkLoggedIn();
     }, []);
 
     const handleLogin = async () => {
         try {
             const user = await UserService.getUserByLogin(email, password);
+            console.log(user)
             if (user == null) {
                 Alert.alert('Erro', 'Usuário ou senha inválidos');
                 return;
@@ -64,14 +65,14 @@ const LoginScreen = () => {
         <View style={styles.container}>
             {isLoggedIn ? (
                 <View style={styles.banner}>
-                    <Text style={styles.bannerText}>Você está logado!</Text>
-                    <Text style={styles.bannerText}>Bem-vindo, {loggedUser.username}!</Text>
-                    <Text style={styles.bannerText}>Email: {loggedUser.email}</Text>
+                    <Text style={styles.bannerTitle}>Você está logado!</Text>
+                    <Text style={styles.bannerText}>Bem-vindo, <Text style={styles.bannerHighlight}>{loggedUser.username}</Text>!</Text>
+                    <Text style={styles.bannerText}>Email: <Text style={styles.bannerHighlight}>{loggedUser.email}</Text></Text>
                     <TouchableOpacity
-                            style={[styles.tab, isLogin && styles.activeTab]}
-                            onPress={() => signOut()}
-                        >
-                        <Text style={styles.tabText}>Login</Text>
+                        style={styles.button}
+                        onPress={signOut}
+                    >
+                        <Text style={styles.buttonText}>Sair</Text>
                     </TouchableOpacity>
                 </View>
             ) : (
@@ -184,6 +185,7 @@ const styles = StyleSheet.create({
         backgroundColor: '#000',
         borderRadius: 8,
         alignItems: 'center',
+        marginTop: 16,
     },
     buttonText: {
         color: '#fff',
@@ -198,11 +200,22 @@ const styles = StyleSheet.create({
         padding: 16,
         backgroundColor: '#4CAF50',
         borderRadius: 8,
+        alignItems: 'center',
+    },
+    bannerTitle: {
+        fontSize: 24,
+        fontWeight: 'bold',
+        color: '#fff',
+        marginBottom: 8,
     },
     bannerText: {
-        color: '#fff',
         fontSize: 16,
+        color: '#fff',
+        marginBottom: 4,
+    },
+    bannerHighlight: {
         fontWeight: 'bold',
+        color: '#fff',
     },
 });
 
