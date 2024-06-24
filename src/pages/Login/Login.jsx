@@ -32,7 +32,8 @@ const LoginScreen = () => {
                 return;
             }
             await UserService.setLoggedUser(user);
-            checkLoggedIn();
+            await checkLoggedIn();
+            clearFields()
         } catch (error) {
             console.error("Error during login:", error);
             Alert.alert('Erro', 'Falha no login. Por favor, tente novamente.');
@@ -41,18 +42,28 @@ const LoginScreen = () => {
 
     const handleSignup = async () => {
         try {
-            const user = await UserService.addUser(email, username, password);
+            console.log(await UserService.addUser(email, username, password));
+            const user = await UserService.getUserByLogin(email, password);
             await UserService.setLoggedUser(user);
-            checkLoggedIn();
+            await checkLoggedIn();
+            clearFields()
         } catch (error) {
             console.error("Error during signup:", error);
             Alert.alert('Erro', 'Falha no cadastro. Por favor, tente novamente.');
         }
     };
 
+    const clearFields = () => {
+        setEmail('');
+        setPassword('');
+        setUsername('');
+    }
+
     const signOut = async () => {
         try {
             await UserService.removeLoggedUser();
+            setLoggedUser({});
+
             checkLoggedIn();
         } catch (error) {
             console.error("Error during logout:", error);

@@ -34,12 +34,19 @@ export default class ActivityService {
   }
 
   static async updateActivity(activity: any) {
-    await fetch(`https://postgrest-qxy1.onrender.com/activity/${activity.id}`, {
+    const bdActivity = {
+        name: activity.name,
+        start_date: activity.startDate,
+        end_date: activity.endDate,
+        id: activity.id
+    }
+
+    await fetch(`https://postgrest-qxy1.onrender.com/activity?id=eq.${activity.id}`, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify(activity)
+      body: JSON.stringify(bdActivity)
     });
   }
 
@@ -53,6 +60,7 @@ export default class ActivityService {
     return activities.map(activity => {
       return {
         "id": activity.id,
+        "name": activity.name,
         "startDate": new Date(activity.start_date),
         "endDate": new Date(activity.end_date)
       };

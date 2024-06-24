@@ -32,11 +32,6 @@ export default function DateProgress({ startDate, endDate }) {
   return (
     <View className="flex flex-row text-xs">
       {formatDate(startDate)}
-      <Bar
-        className="w-2/5 mx-2"
-        progress={progress}
-        width={70}
-      />
       {formatDate(endDate)}
     </View>
   );
