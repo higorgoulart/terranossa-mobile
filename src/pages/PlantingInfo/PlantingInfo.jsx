@@ -16,7 +16,6 @@ export function PlantingInfo() {
             try {
                 const results = await PlantingInfoService.getPlantingInfoByName(text);
                 setSearchResults(results);
-                console.log(results)
             } catch (error) {
                 console.error("Erro ao buscar informações:", error);
                 setSearchResults([]);

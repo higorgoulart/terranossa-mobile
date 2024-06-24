@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import DateProgress from '../../components/DateProgress';
 import DayActivityContext from './contexts/DayActivityContext';
 import ActivityService from '../../services/ActivityService';
@@ -9,8 +9,16 @@ import UserService from "@/services/UserService";
 export default function ActivityCard({ activity }) {
   const { currentDay } = useContext(CurrentDayContext);
   const { dayActivities, setDayActivities } = useContext(DayActivityContext);
+  const [editable, setEditable] = useState(false);
+  const [name, setName] = useState(activity.name);
 
-  const editable = UserService.getLoggedUser() != null;
+  useEffect(() => {
+    async function fetchEditible() {
+      setEditable(await UserService.getLoggedUser() != null);
+    }
+
+    fetchEditible();
+  }, []);
 
   const handleNameChange = (value) => {
     ActivityService.updateActivity({ ...activity, name: value }).then(_ => updateDayActivities());
@@ -28,9 +36,10 @@ export default function ActivityCard({ activity }) {
     <View key={activity.id} className="bg-neutral-100 rounded-lg shadow-sm p-4 m-2">
       <View className="flex flex-row items-center mb-3">
         <TextInput
-          className="flex-grow input input-xs pl-2"
-          value={activity.name}
-          onChangeText={handleNameChange}
+          className="flex-grow input input-xs pl-2 border-b-2"
+          onBlur={() => handleNameChange(name)}
+          value={name}
+          onChangeText={setName}
           editable={editable}
         />
         <TouchableOpacity onPress={deleteActivity} className="mx-2 w-5">
