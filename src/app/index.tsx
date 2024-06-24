@@ -42,6 +42,7 @@ function BottomTabs() {
                     tabBarIcon: ({ color, size }) => (
                         <Icon name="calendar-outline" color={color} size={size} />
                     ),
+                    unmountOnBlur: true
                 }}
             />
             <Tab.Screen

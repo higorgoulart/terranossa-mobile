@@ -27,7 +27,6 @@ const LoginScreen = () => {
     const handleLogin = async () => {
         try {
             const user = await UserService.getUserByLogin(email, password);
-            console.log(user)
             if (user == null) {
                 Alert.alert('Erro', 'Usuário ou senha inválidos');
                 return;
@@ -65,15 +64,17 @@ const LoginScreen = () => {
         <View style={styles.container}>
             {isLoggedIn ? (
                 <View style={styles.banner}>
-                    <Text style={styles.bannerTitle}>Você está logado!</Text>
-                    <Text style={styles.bannerText}>Bem-vindo, <Text style={styles.bannerHighlight}>{loggedUser.username}</Text>!</Text>
-                    <Text style={styles.bannerText}>Email: <Text style={styles.bannerHighlight}>{loggedUser.email}</Text></Text>
-                    <TouchableOpacity
-                        style={styles.button}
-                        onPress={signOut}
-                    >
-                        <Text style={styles.buttonText}>Sair</Text>
-                    </TouchableOpacity>
+                    <Text style={styles.bannerText}>Você está logado!</Text>
+                    <Text style={styles.bannerText}>Bem-vindo, {loggedUser.username}!</Text>
+                    <Text style={styles.bannerText}>Email: {loggedUser.email}</Text>
+                    <View style={styles.tabContainer}>
+                        <TouchableOpacity
+                                style={[styles.tab, isLogin && styles.activeTab]}
+                                onPress={() => signOut()}
+                            >
+                            <Text style={styles.tabText}>Sair</Text>
+                        </TouchableOpacity>
+                    </View>
                 </View>
             ) : (
                 <>
@@ -197,8 +198,8 @@ const styles = StyleSheet.create({
         color: '#000',
     },
     banner: {
-        padding: 16,
-        backgroundColor: '#4CAF50',
+        padding: 25,
+        backgroundColor: '#435C34',
         borderRadius: 8,
         alignItems: 'center',
     },

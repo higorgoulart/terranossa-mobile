@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import DateProgress from '../../components/DateProgress';
 import DayActivityContext from './contexts/DayActivityContext';
 import ActivityService from '../../services/ActivityService';
@@ -10,9 +10,15 @@ export default function ActivityCard({ activity }) {
   const { currentDay } = useContext(CurrentDayContext);
   const { dayActivities, setDayActivities } = useContext(DayActivityContext);
 
-  const editable = UserService.getLoggedUser() != null;
+  const [editable, setEditable] = useState(UserService.getLoggedUser() != null);
+
+  useEffect(() => {
+    setEditable(UserService.getLoggedUser() != null);
+    console.log(editable)
+  }, []);
 
   const handleNameChange = (value) => {
+    console.log("teste")
     ActivityService.updateActivity({ ...activity, name: value }).then(_ => updateDayActivities());
   };
 
