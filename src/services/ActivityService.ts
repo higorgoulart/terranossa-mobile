@@ -4,9 +4,13 @@ export default class ActivityService {
   }
 
   static async getByDate(date: Date): Promise<any[]> {
-    const dateTime = date.toISOString().split('.')[0];
+    const startDate = new Date(date);
+    startDate.setHours(0, 0, 0, 0);
 
-    return (await fetch(`https://postgrest-qxy1.onrender.com/activity?start_date=gte.${dateTime}&end_date=lte.${dateTime}`)).json().then(activities =>  ActivityService.mapToActivities(activities));
+    const endDate = new Date(startDate);
+    endDate.setDate(endDate.getDate() + 1);
+
+    return await ActivityService.getByDates(startDate, endDate);
   }
 
   static async getByDates(startDate: Date, lastDate: Date): Promise<any[]> {

@@ -18,7 +18,7 @@ export default function DateProgress({ startDate, endDate }) {
 
   const formatDate = (date) => {
     return (
-      <Text>
+      <Text className="px-2">
         {date.toLocaleString(undefined, {
           day: '2-digit',
           month: 'short',
