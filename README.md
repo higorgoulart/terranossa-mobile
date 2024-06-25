@@ -2,6 +2,14 @@
 
 Bem-vindo ao projeto Terra Nossa! Este aplicativo foi desenvolvido para gerenciar espaços coletivos dedicados à produção de alimentos através do trabalho voluntário de pessoas da comunidade. Nosso objetivo é atrair mais usuários e colaboradores para esta causa social.
 
+## Trabalho
+
+- [Apresentação](https://docs.google.com/presentation/d/1K96g7yESn5eJBzPRsGNK-zFeEJu1VpG2rcJu3BeO5TQ/edit?usp=sharing);
+- Equipe:
+  - Bruno Venturini;
+  - Guilherme Savio;
+  - Higor Goulart.
+
 ## Funcionalidades
 
 - **Informações Climáticas Semanais**
